@@ -1,0 +1,25 @@
+.grid {
+    margin: 0 auto;
+    aspect-ratio: 1/1;
+    width: 50vw;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    background: beige;
+}
+
+.case {
+    aspect-ratio: 1/1;
+    background: purple;
+    border:1px black solid
+}
+
+.pawn1,.pawn2 {
+    height: 100%;
+    border-radius: 50%;
+}
+.pawn1 {
+    background: blue;
+}
+.pawn2 {
+    background: red;
+}
