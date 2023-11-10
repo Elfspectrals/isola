@@ -1,3 +1,5 @@
+let currentPlayer = "player1";
+
 function Game() {
   let p1Start = document.querySelectorAll(".case")[3];
   p1Start.classList.add("pawn1");
@@ -8,17 +10,16 @@ function Game() {
   // Récupérer toutes les cases
   let cases = document.querySelectorAll(".case");
 
-  let currentPlayer = "player1";
   let block = false;
-  let hasMove = false;
 
   cases.forEach(function (caseElement) {
     caseElement.addEventListener("click", function () {
       if (
         !caseElement.classList.contains("pawn1") &&
-        !caseElement.classList.contains("pawn2") && !caseElement.classList.contains('cross')
+        !caseElement.classList.contains("pawn2") &&
+        !caseElement.classList.contains("cross")
       ) {
-        if(!block){
+        if (!block) {
           if (currentPlayer === "player1") {
             if (
               isAdjacentVertical(caseElement, p1Start) ||
@@ -28,10 +29,8 @@ function Game() {
               p1Start.classList.remove("pawn1");
               caseElement.classList.add("pawn1");
               p1Start = caseElement;
-  
-              currentPlayer = "player2";
-            block = !block;
-  
+
+              block = !block;
             }
           } else if (currentPlayer === "player2") {
             if (
@@ -42,21 +41,22 @@ function Game() {
               p2Start.classList.remove("pawn2");
               caseElement.classList.add("pawn2");
               p2Start = caseElement;
-              currentPlayer = "player1";
-            block = !block;
-  
+              block = !block;
             }
           }
         } else {
-            caseElement.classList.add("cross");
-            block = !block;
+          caseElement.classList.add("cross");
+          currentPlayer = currentPlayer === "player1" ? "player2" : "player1";
+          if(GameOver()) {
+            alert('One of you lost');
+          }
+          block = !block;
         }
       }
     });
   });
 }
 
-Game();
 function isAdjacentVertical(caseElement, startElement) {
   const selectedIndex = Array.from(caseElement.parentNode.children).indexOf(
     caseElement
@@ -116,6 +116,55 @@ function isAdjacentDiagonal(caseElement, startElement) {
   );
 }
 
+function GameOver() {
+  let p1Position = document.querySelector(".pawn1");
+  let p2Position = document.querySelector(".pawn2");
+  let cases = document.querySelectorAll(".case");
 
+  let p1Line = parseInt(p1Position.getAttribute("data-line"));
+  let p1Col = parseInt(p1Position.getAttribute("data-col"));
+
+  let p2Line = parseInt(p2Position.getAttribute("data-line"));
+  let p2Col = parseInt(p2Position.getAttribute("data-col"));
+
+
+  if (currentPlayer === "player1") {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i === 0 && j === 0) {
+          continue;
+        } else {
+          let compareLine = p1Line + i;
+          let compareCol = p1Col + j;
+          let target = document.querySelector(
+            `.case[data-line="${compareLine}"][data-col="${compareCol}"]`
+          );
+          if (target && !target.classList.contains("cross")) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  } else if (currentPlayer === "player2") {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i === 0 && j === 0) {
+          continue;
+        } else {
+          let compareLine = p2Line + i;
+          let compareCol = p2Col + j;
+          let target = document.querySelector(
+            `.case[data-line="${compareLine}"][data-col="${compareCol}"]`
+          );
+          if (target && !target.classList.contains("cross")) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+}
 
 Game();
