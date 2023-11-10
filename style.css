@@ -18,8 +18,11 @@
     border-radius: 50%;
 }
 .pawn1 {
-    background: blue;
+    background: blue !important;
 }
 .pawn2 {
-    background: red;
+    background: red !important;
+}
+.cross {
+    background: black  ;
 }

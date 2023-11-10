@@ -8,53 +8,51 @@ function Game() {
   // Récupérer toutes les cases
   let cases = document.querySelectorAll(".case");
 
-  let currentPlayer = "player1"; // Variable pour suivre le joueur actuel
+  let currentPlayer = "player1";
+  let block = false;
   cases.forEach(function (caseElement) {
     caseElement.addEventListener("click", function () {
       if (
         !caseElement.classList.contains("pawn1") &&
-        !caseElement.classList.contains("pawn2")
+        !caseElement.classList.contains("pawn2") && !caseElement.classList.contains('cross')
       ) {
-        if (currentPlayer === "player1") {
-          // Vérifier si la case est adjacente et dans la même colonne, ligne ou diagonale que le pion du joueur 1
-          if (
-            isAdjacentVertical(caseElement, p1Start) ||
-            isAdjacentHorizontal(caseElement, p1Start) ||
-            isAdjacentDiagonal(caseElement, p1Start)
-          ) {
-            p1Start.classList.remove("pawn1");
-            caseElement.classList.add("pawn1");
-            p1Start = caseElement;
-            currentPlayer = "player2";
-          }
-         cases.forEach(function(caseElement){
-            if( !caseElement.classList.contains("pawn1") &&
-            !caseElement.classList.contains("pawn2")) {
-
+        if(!block){
+          if (currentPlayer === "player1") {
+            if (
+              isAdjacentVertical(caseElement, p1Start) ||
+              isAdjacentHorizontal(caseElement, p1Start) ||
+              isAdjacentDiagonal(caseElement, p1Start)
+            ) {
+              p1Start.classList.remove("pawn1");
+              caseElement.classList.add("pawn1");
+              p1Start = caseElement;
+  
+              currentPlayer = "player2";
+  
             }
-         }) 
-        } else if (currentPlayer === "player2") {
-          // Vérifier si la case est adjacente et dans la même colonne, ligne ou diagonale que le pion du joueur 2
-          if (
-            isAdjacentVertical(caseElement, p2Start) ||
-            isAdjacentHorizontal(caseElement, p2Start) ||
-            isAdjacentDiagonal(caseElement, p2Start)
-          ) {
-            p2Start.classList.remove("pawn2");
-            caseElement.classList.add("pawn2");
-            p2Start = caseElement;
-            currentPlayer = "player1";
+          } else if (currentPlayer === "player2") {
+            if (
+              isAdjacentVertical(caseElement, p2Start) ||
+              isAdjacentHorizontal(caseElement, p2Start) ||
+              isAdjacentDiagonal(caseElement, p2Start)
+            ) {
+              p2Start.classList.remove("pawn2");
+              caseElement.classList.add("pawn2");
+              p2Start = caseElement;
+              currentPlayer = "player1";
+  
+            }
           }
+        } else {
+            caseElement.classList.add("cross");
         }
+        block = !block;
       }
     });
   });
 }
 
-function placeBlock() {
-    alert('TG')
-}
-
+Game();
 function isAdjacentVertical(caseElement, startElement) {
   const selectedIndex = Array.from(caseElement.parentNode.children).indexOf(
     caseElement
@@ -113,5 +111,7 @@ function isAdjacentDiagonal(caseElement, startElement) {
     Math.abs(selectedRow - startRow) === 1
   );
 }
+
+
 
 Game();
