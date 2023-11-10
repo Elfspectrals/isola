@@ -10,6 +10,8 @@ function Game() {
 
   let currentPlayer = "player1";
   let block = false;
+  let hasMove = false;
+
   cases.forEach(function (caseElement) {
     caseElement.addEventListener("click", function () {
       if (
@@ -28,6 +30,7 @@ function Game() {
               p1Start = caseElement;
   
               currentPlayer = "player2";
+            block = !block;
   
             }
           } else if (currentPlayer === "player2") {
@@ -40,13 +43,14 @@ function Game() {
               caseElement.classList.add("pawn2");
               p2Start = caseElement;
               currentPlayer = "player1";
+            block = !block;
   
             }
           }
         } else {
             caseElement.classList.add("cross");
+            block = !block;
         }
-        block = !block;
       }
     });
   });
